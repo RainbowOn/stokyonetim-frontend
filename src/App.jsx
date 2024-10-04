@@ -134,14 +134,21 @@ function App() {
         return sortableCustomers;
     }, [customers, sortConfig]);
 
-    const filteredCustomers = sortedCustomers.filter(customer =>
-        customer.isim.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        customer.soyisim.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        customer.firma_adi.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        customer.urun_adi.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        customer.urun_markasi.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        customer.arac_plakasi.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredCustomers = sortedCustomers.filter(customer => {
+        const fullName = `${customer.isim || ''} ${customer.soyisim || ''}`.toLowerCase();
+        const firmaAdi = (customer.firma_adi || '').toLowerCase();
+        const urunAdi = (customer.urun_adi || '').toLowerCase();
+        const urunMarkasi = (customer.urun_markasi || '').toLowerCase();
+        const aracPlakasi = (customer.arac_plakasi || '').toLowerCase();
+        const searchWords = searchQuery.toLowerCase().split(' ');
+        return searchWords.every(word =>
+            fullName.includes(word) ||
+            firmaAdi.includes(word) ||
+            urunAdi.includes(word) ||
+            urunMarkasi.includes(word) ||
+            aracPlakasi.includes(word)
+        );
+    });
 
     // Pagination calculations
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -205,90 +212,16 @@ function App() {
                     <table className="min-w-full bg-white">
                         <thead>
                             <tr>
-                                <th
-                                    className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                    onClick={() => requestSort('id')}
-                                >
-                                    ID
-                                    {sortConfig.key === 'id' ? (
-                                        sortConfig.direction === 'ascending' ? ' 🔼' : ' 🔽'
-                                    ) : null}
-                                </th>
-                                <th
-                                    className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                    onClick={() => requestSort('isim')}
-                                >
-                                    İsim
-                                    {sortConfig.key === 'isim' ? (
-                                        sortConfig.direction === 'ascending' ? ' 🔼' : ' 🔽'
-                                    ) : null}
-                                </th>
-                                <th
-                                    className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                    onClick={() => requestSort('soyisim')}
-                                >
-                                    Soyisim
-                                    {sortConfig.key === 'soyisim' ? (
-                                        sortConfig.direction === 'ascending' ? ' 🔼' : ' 🔽'
-                                    ) : null}
-                                </th>
-                                <th
-                                    className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                    onClick={() => requestSort('raf_numarasi')}
-                                >
-                                    Raf No
-                                    {sortConfig.key === 'raf_numarasi' ? (
-                                        sortConfig.direction === 'ascending' ? ' 🔼' : ' 🔽'
-                                    ) : null}
-                                </th>
-                                <th
-                                    className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                    onClick={() => requestSort('arac_plakasi')}
-                                >
-                                    Plaka
-                                    {sortConfig.key === 'arac_plakasi' ? (
-                                        sortConfig.direction === 'ascending' ? ' 🔼' : ' 🔽'
-                                    ) : null}
-                                </th>
-                                <th
-                                    className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                    onClick={() => requestSort('urun_ebadi')}
-                                >
-                                    Ürün Ebadı
-                                    {sortConfig.key === 'urun_ebadi' ? (
-                                        sortConfig.direction === 'ascending' ? ' 🔼' : ' 🔽'
-                                    ) : null}
-                                </th>
-                                <th
-                                    className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                    onClick={() => requestSort('urun_adi')}
-                                >
-                                    Ürün Adı
-                                    {sortConfig.key === 'urun_adi' ? (
-                                        sortConfig.direction === 'ascending' ? ' 🔼' : ' 🔽'
-                                    ) : null}
-                                </th>
-                                <th
-                                    className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                    onClick={() => requestSort('urun_markasi')}
-                                >
-                                    Ürün Markası
-                                    {sortConfig.key === 'urun_markasi' ? (
-                                        sortConfig.direction === 'ascending' ? ' 🔼' : ' 🔽'
-                                    ) : null}
-                                </th>
-                                <th
-                                    className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                    onClick={() => requestSort('durum')}
-                                >
-                                    Durum
-                                    {sortConfig.key === 'durum' ? (
-                                        sortConfig.direction === 'ascending' ? ' 🔼' : ' 🔽'
-                                    ) : null}
-                                </th>
-                                <th className="py-3 px-6 bg-gray-200 text-center text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                    İşlemler
-                                </th>
+                                <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('id')}>ID {sortConfig.key === 'id' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}</th>
+                                <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('isim')}>İsim {sortConfig.key === 'isim' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}</th>
+                                <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('soyisim')}>Soyisim {sortConfig.key === 'soyisim' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}</th>
+                                <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('raf_numarasi')}>Raf No {sortConfig.key === 'raf_numarasi' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}</th>
+                                <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('arac_plakasi')}>Plaka {sortConfig.key === 'arac_plakasi' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}</th>
+                                <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('urun_ebadi')}>Ürün Ebadı {sortConfig.key === 'urun_ebadi' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}</th>
+                                <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('urun_adi')}>Ürün Adı {sortConfig.key === 'urun_adi' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}</th>
+                                <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('urun_markasi')}>Ürün Markası {sortConfig.key === 'urun_markasi' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}</th>
+                                <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('durum')}>Durum {sortConfig.key === 'durum' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}</th>
+                                <th className="py-3 px-6 bg-gray-200 text-center text-xs font-medium text-gray-700 uppercase tracking-wider">İşlemler</th>
                             </tr>
                         </thead>
                         <tbody>
