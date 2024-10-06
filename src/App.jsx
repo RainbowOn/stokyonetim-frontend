@@ -5,6 +5,7 @@ import logo from '../src/assets/logo.png';
 import { LoginPage } from './components/pages/LoginPage';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
+
 function HomePage() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [customers, setCustomers] = useState([]);

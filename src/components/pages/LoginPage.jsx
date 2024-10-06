@@ -1,4 +1,4 @@
-// components/pages/LoginPage.jsx
+// src/components/pages/LoginPage.jsx
 import React, { useState } from 'react';
 import axios from 'axios'; // Axios'u import edin
 import { useNavigate } from 'react-router-dom'; // Yönlendirme için useNavigate hook'unu kullanın
@@ -10,27 +10,27 @@ export const LoginPage = () => {
   const navigate = useNavigate(); // Yönlendirme fonksiyonu
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Formun sayfayı yenilemesini önleyin
-    setError(''); // Önceki hataları temizleyin
+      e.preventDefault(); // Formun sayfayı yenilemesini önleyin
+      setError(''); // Önceki hataları temizleyin
 
-    try {
-      const response = await axios.post('/api/api-token-auth/', {
-        email: email,
-        password: password,
-      });
+      try {
+          const response = await axios.post('http://localhost:8000/api/api-token-auth/', {
+              email: email,
+              password: password,
+          });
 
-      // Token'ı localStorage'a kaydedin
-      localStorage.setItem('authToken', response.data.token);
+          // Token'ı localStorage'a kaydedin
+          localStorage.setItem('authToken', response.data.token);
 
-      // Axios'un default header'ına Authorization ekleyin
-      axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
+          // Axios'un default header'ına Authorization ekleyin
+          axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
 
-      // Kullanıcıyı ana sayfaya yönlendirin
-      navigate('/');
-    } catch (err) {
-      console.error('Giriş yaparken bir hata oluştu:', err.response?.data || err.message);
-      setError('Giriş başarısız. Email veya şifrenizi kontrol edin.');
-    }
+          // Kullanıcıyı ana sayfaya yönlendirin
+          navigate('/');
+      } catch (err) {
+          console.error('Giriş yaparken bir hata oluştu:', err.response?.data || err.message);
+          setError('Giriş başarısız. Email veya şifrenizi kontrol edin.');
+      }
   };
 
   return (

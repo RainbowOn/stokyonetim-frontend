@@ -1,27 +1,29 @@
 // src/components/pages/HomeContent.jsx
 import React from 'react';
-import CustomerModal from './CustomerModal'; // Doğru yolu kullandığınızdan emin olun
+import { useOutletContext } from 'react-router-dom';
 
-const HomeContent = ({
-    customers,
-    isModalOpen,
-    setIsModalOpen,
-    newCustomer,
-    handleInputChange,
-    handleAddCustomer,
-    showSecondProduct,
-    setShowSecondProduct,
-    sortedCustomers,
-    sortConfig,
-    requestSort,
-    searchQuery,
-    setSearchQuery,
-    currentCustomers,
-    paginate,
-    currentPage,
-    totalPages,
-    itemsPerPage
-}) => {
+export const HomeContent = () => {
+    const {
+        customers,
+        isModalOpen,
+        setIsModalOpen,
+        newCustomer,
+        handleInputChange,
+        handleAddCustomer,
+        showSecondProduct,
+        setShowSecondProduct,
+        sortedCustomers,
+        sortConfig,
+        requestSort,
+        searchQuery,
+        setSearchQuery,
+        currentCustomers,
+        paginate,
+        currentPage,
+        totalPages,
+        itemsPerPage
+    } = useOutletContext();
+
     return (
         <>
             <div className="flex justify-between items-center mb-6">
@@ -39,69 +41,37 @@ const HomeContent = ({
                 <table className="min-w-full bg-white">
                     <thead>
                         <tr>
-                            <th
-                                className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort('id')}
-                            >
+                            <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('id')}>
                                 ID {sortConfig.key === 'id' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}
                             </th>
-                            <th
-                                className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort('isim')}
-                            >
+                            <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('isim')}>
                                 İsim {sortConfig.key === 'isim' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}
                             </th>
-                            <th
-                                className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort('soyisim')}
-                            >
+                            <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('soyisim')}>
                                 Soyisim {sortConfig.key === 'soyisim' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}
                             </th>
-                            <th
-                                className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort('raf_numarasi')}
-                            >
+                            <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('raf_numarasi')}>
                                 Raf No {sortConfig.key === 'raf_numarasi' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}
                             </th>
-                            <th
-                                className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort('arac_plakasi')}
-                            >
+                            <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('arac_plakasi')}>
                                 Plaka {sortConfig.key === 'arac_plakasi' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}
                             </th>
-                            <th
-                                className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort('urun_ebadi')}
-                            >
+                            <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('urun_ebadi')}>
                                 Ürün Ebadı {sortConfig.key === 'urun_ebadi' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}
                             </th>
-                            <th
-                                className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort('urun_adi')}
-                            >
+                            <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('urun_adi')}>
                                 Ürün Adı {sortConfig.key === 'urun_adi' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}
                             </th>
-                            <th
-                                className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort('urun_markasi')}
-                            >
+                            <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('urun_markasi')}>
                                 Ürün Markası {sortConfig.key === 'urun_markasi' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}
                             </th>
-                            <th
-                                className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort('durum')}
-                            >
+                            <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('durum')}>
                                 Durum {sortConfig.key === 'durum' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}
                             </th>
-                            <th
-                                className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort('geri_sayim')}
-                            >
+                            <th className="py-3 px-6 bg-gray-200 text-left text-xs font-medium text-gray-700 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('geri_sayim')}>
                                 Geri Sayım {sortConfig.key === 'geri_sayim' ? (sortConfig.direction === 'ascending' ? '🔼' : '🔽') : null}
                             </th>
-                            <th className="py-3 px-6 bg-gray-200 text-center text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                İşlemler
-                            </th>
+                            <th className="py-3 px-6 bg-gray-200 text-center text-xs font-medium text-gray-700 uppercase tracking-wider">İşlemler</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -148,9 +118,7 @@ const HomeContent = ({
                             })
                         ) : (
                             <tr>
-                                <td colSpan="11" className="py-4 px-6 text-center text-gray-500">
-                                    Yükleniyor veya müşteri kaydı yok...
-                                </td>
+                                <td colSpan="11" className="py-4 px-6 text-center text-gray-500">Yükleniyor veya müşteri kaydı yok...</td>
                             </tr>
                         )}
                     </tbody>

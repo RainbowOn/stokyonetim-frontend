@@ -1,10 +1,10 @@
 // src/components/layouts/MainLayout.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import CustomerModal from '../modals/CustomerModal';
 
-const MainLayout = ({ children, customers, isModalOpen, setIsModalOpen, newCustomer, handleInputChange, handleAddCustomer, showSecondProduct, setShowSecondProduct, sortedCustomers, sortConfig, requestSort, searchQuery, setSearchQuery, currentCustomers, paginate, currentPage, totalPages, itemsPerPage }) => {
+export const MainLayout = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
@@ -28,17 +28,6 @@ const MainLayout = ({ children, customers, isModalOpen, setIsModalOpen, newCusto
                         <Link to="/profil">Profil</Link>
                     </li>
                 </ul>
-
-                <div className='relative hidden md:flex items-center justify-center gap-3'>
-                    <i className='bx bx-search absolute left-3 text-2xl text-gray-500'></i>
-                    <input
-                        type="text"
-                        placeholder='Search...'
-                        className='py-2 pl-10 pr-4 rounded-xl border-2 border-blue-300 focus:bg-slate-100 focus:outline-sky-500'
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                </div>
 
                 <i className='bx bx-menu xl:hidden block text-5xl cursor-pointer' onClick={() => setIsMenuOpen(!isMenuOpen)}></i>
 
@@ -65,21 +54,11 @@ const MainLayout = ({ children, customers, isModalOpen, setIsModalOpen, newCusto
 
             {/* Sayfa İçeriği */}
             <main className="p-8 w-full max-w-min mx-auto">
-                {children}
+                <Outlet />
             </main>
-
-            {/* Müşteri Kayıt Modal */}
-            <CustomerModal
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}
-                newCustomer={newCustomer}
-                handleInputChange={handleInputChange}
-                handleAddCustomer={handleAddCustomer}
-                showSecondProduct={showSecondProduct}
-                setShowSecondProduct={setShowSecondProduct}
-            />
         </div>
     );
+
 };
 
 export default MainLayout;
